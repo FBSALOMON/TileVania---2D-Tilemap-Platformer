@@ -21,7 +21,7 @@ TagManager:
   - Enemy
   - Hazards
   - Interactables
-  - 
+  - Shield
   - 
   - 
   - 
@@ -53,6 +53,9 @@ TagManager:
     locked: 0
   - name: Hazards
     uniqueID: 3454988301
+    locked: 0
+  - name: Shield
+    uniqueID: 3023343717
     locked: 0
   - name: Interactables
     uniqueID: 3881124417

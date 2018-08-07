@@ -15,6 +15,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     public Vector2 deathKick;
 
+    public GameObject myShield;
+
     // State
     bool isAlive = true;
 
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour {
         FlipSprite();
         ClimbLadder();
         Die();
-
+        Shield();
 
     }
 
@@ -68,11 +70,34 @@ public class Player : MonoBehaviour {
 
     private void Jump()
     {
-        bool isPlayerOnTheGround = (myFeet.IsTouchingLayers(LayerMask.GetMask("Ground")));
+        bool isPlayerOnTheGround = (myFeet.IsTouchingLayers(LayerMask.GetMask("Ground","Shield")));
         if (CrossPlatformInputManager.GetButtonDown("Jump") && isPlayerOnTheGround)
         {
             Vector2 playerVelocity = new Vector2(0f, jumpPower);
             myRigidbody2D.velocity += playerVelocity;
+        }
+    }
+
+    private void Shield()
+    {
+        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
+
+        if (CrossPlatformInputManager.GetButtonDown("Fire2"))
+        {
+            Vector3 wordPos;
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1000f))
+            {
+                wordPos = hit.point;
+            }
+            else
+            {
+                wordPos = Camera.main.ScreenToWorldPoint(mousePos);
+            }
+            Instantiate(myShield, new Vector3(wordPos.x,wordPos.y,0), Quaternion.identity);
+            //or for tandom rotarion use Quaternion.LookRotation(Random.insideUnitSphere)
+            //GameObject shield = Instantiate(myShield, new Vector3(transform.position.x, transform.position.y - 2, 0), Quaternion.identity);
         }
     }
 
